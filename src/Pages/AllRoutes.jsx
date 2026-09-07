@@ -13,19 +13,20 @@ import { Register } from "./Register";
 import StayData from "./Stay/StayData";
 import CheckoutPage from "./CheckoutPage";
 import FlightData from "./Flights/FlightData";
+import { AdminRoute } from "../Components/AdminRoute";
 
 export const AllRoutes = () => {
     return (
         <>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/adminflight" element={<Admin />} />
-            <Route path="/admin/adminstay" element={<AdminStay />} />
-            <Route path="/admin/products" element={<AdminProducts />} />
+            <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+            <Route path="/admin/adminflight" element={<AdminRoute><Admin /></AdminRoute>} />
+            <Route path="/admin/adminstay" element={<AdminRoute><AdminStay /></AdminRoute>} />
+            <Route path="/admin/products" element={<AdminRoute><AdminProducts /></AdminRoute>} />
             <Route path="/login" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>
-            <Route path="/admin/hotels" element={<AllHotels />} />
+            <Route path="/admin/hotels" element={<AdminRoute><AllHotels /></AdminRoute>} />
             <Route path="/ThingsToDo" element={<Destination/>}/>
             <Route path="/stay" element={<StayData />} />
             <Route path="/flight" element={<FlightData />} />

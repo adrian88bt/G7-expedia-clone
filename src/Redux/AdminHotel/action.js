@@ -1,4 +1,5 @@
 import axios from "axios";
+import { BASE_URL } from "../../baseurl";
 import {
   HOTEL_FAILURE,
   HOTEL_REQUEST,
@@ -39,7 +40,7 @@ export const addHotel = (payload) => (dispatch) => {
   dispatch(hotelRequest());
 
   axios
-    .post("http://localhost:8080/hotel", payload) // https://makemytrip-api-data.onrender.com/hotel
+    .post(`${BASE_URL}/hotel`, payload)
     .then(() => {
       dispatch(postHotelSuccess());
     })
@@ -50,7 +51,7 @@ export const addHotel = (payload) => (dispatch) => {
 
 export const fetchingHotels = (limit) => (dispatch) => {
   axios
-    .get(`http://localhost:8080/hotel?_limit=${limit}`) // https://makemytrip-api-data.onrender.com/hotel?_limit=${limit}
+    .get(`${BASE_URL}/hotel?_limit=${limit}`)
     .then((res) => {
       //   console.log(res.data);
       dispatch(fetch_hotel(res.data));
@@ -63,7 +64,7 @@ export const fetchingHotels = (limit) => (dispatch) => {
 export const DeleteHotel = (deleteId) => async (dispatch) => {
   try {
     const res = await fetch(
-      `http://localhost:8080/hotel/${deleteId}`, // https://makemytrip-api-data.onrender.com/hotel/${deleteId}
+      `${BASE_URL}/hotel/${deleteId}`,
       {
         method: "DELETE",
         headers: {

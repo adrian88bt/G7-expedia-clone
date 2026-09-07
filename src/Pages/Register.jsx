@@ -1,148 +1,94 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./login.css";
 import firebase_app from "../01_firebase/config_firebase";
-import {
-  getAuth,
-  RecaptchaVerifier,
-  signInWithPhoneNumber,
-} from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { fetch_users, userRigister } from "../Redux/Authantication/auth.action";
-import Navbar from "../Components/Navbar";
 
 const auth = getAuth(firebase_app);
 const state = {
-  number: "",
-  otp: "",
-  user_name: "",
+  email: "",
   password: "",
-  verify: false,
-  otpVerify: false,
+  user_name: "",
+};
+
+// Firebase error codes -> the messages we show under the form.
+const errorMessage = (code) => {
+  switch (code) {
+    case "auth/email-already-in-use":
+      return "User Alredy exist";
+    case "auth/invalid-email":
+      return "Email address is invalid !";
+    case "auth/weak-password":
+      return "Password must be at least 6 characters !";
+    default:
+      return "Could not create your account, please try again !";
+  }
 };
 
 export const Register = () => {
   const [check, setCheck] = useState(state);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  let exist = false;
-  const { number, otp, verify, otpVerify, user_name, password } = check;
-
-  // store value and getting user to check if the number is exist or not
-  const { user, isLoading } = useSelector((store) => {
+  const { isLoading } = useSelector((store) => {
     return {
-      user: store.LoginReducer.user,
       isLoading: store.LoginReducer.isLoading,
     };
   });
 
-  //  check if the user is exist of not
-  for (let i = 0; i <= user.length - 1; i++) {
-    if (user[i].number === number) {
-      exist = true;
-      break;
-    }
-  }
+  const { email, password, user_name } = check;
 
-  //  capture
   const handleRegisterUser = () => {
-    let newObj = {
-      number,
-      user_name,
-      password,
-      email: "",
-      dob: "",
-      gender: "",
-      marital_status: null,
-    };
-    dispatch(userRigister(newObj));
-    setCheck(state);
-    window.location = "/login";
-  };
+    const nextButton = document.querySelector("#nextButton");
 
-  // oonCapture
-  function onCapture() {
-    window.recaptchaVerifier = new RecaptchaVerifier(
-      "recaptcha-container",
-      {
-        size: "invisible",
-        callback: (response) => {
-          handleVerifyNumber();
-          // reCAPTCHA solved, allow signInWithPhoneNumber.
-          // ...
-        },
-      },
-      auth
-    );
-  }
-
-  //   Verify button
-  function handleVerifyNumber() {
-    document.querySelector("#nextButton").innerText = "Please wait...";
-    onCapture();
-    const phoneNumber = `+1${number}`;
-    const appVerifier = window.recaptchaVerifier;
-    if (number.length === 10) {
-      if (exist) {
-        document.querySelector("#loginMesageError").innerHTML =
-          "User Alredy exist";
-        document.querySelector("#loginMesageSuccess").innerHTML = ``;
-      } else {
-        signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-          .then((confirmationResult) => {
-            // SMS sent. Prompt user to type the code from the message, then sign the
-            // user in with confirmationResult.confirm(code).
-            window.confirmationResult = confirmationResult;
-            setCheck({ ...check, verify: true });
-            document.querySelector(
-              "#loginMesageSuccess"
-            ).innerHTML = `Otp Send To ${number} !`;
-            document.querySelector("#loginMesageError").innerHTML = "";
-            document.querySelector("#nextButton").style.display = "none";
-            // ...
-          })
-          .catch((error) => {
-            // Error; SMS not sent
-            // document.querySelector("#nextButton").innerText = 'Server Error'
-            // ...
-          });
-      }
-      //
-    } else {
+    if (!email || !password || !user_name) {
       document.querySelector("#loginMesageSuccess").innerHTML = ``;
       document.querySelector("#loginMesageError").innerHTML =
-        "Mobile Number is Invalid !";
+        "Please fill in every field !";
+      return;
     }
-  }
 
-  // if the code is verifyed
-  function verifyCode() {
-    window.confirmationResult
-      .confirm(otp)
-      .then((result) => {
-        // User signed in successfully.
-        const user = result.user;
-        setCheck({ ...check, otpVerify: true });
+    nextButton.innerText = "Please wait...";
+    nextButton.disabled = true;
+
+    // Firebase stores the credentials; db.json only stores the profile.
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(() => {
         document.querySelector(
           "#loginMesageSuccess"
-        ).innerHTML = `Verifyed Successful`;
+        ).innerHTML = `Account Created Successful`;
         document.querySelector("#loginMesageError").innerHTML = "";
-        document.querySelector("#loginNumber").style.display = "none";
-        document.querySelector("#loginOtp").style.display = "none";
-        // ...
+
+        const newObj = {
+          email,
+          user_name,
+          is_admin: false,
+          number: "",
+          dob: "",
+          gender: "",
+          marital_status: null,
+        };
+
+        // Wait for the profile to land in db.json before leaving the page.
+        return dispatch(userRigister(newObj)).then(() => {
+          setCheck(state);
+          window.location = "/login";
+        });
       })
       .catch((error) => {
-        // User couldn't sign in (bad verification code?)
+        // A Firebase failure carries a code; anything else came from the
+        // db.json POST, which means the account exists but the profile does not.
         document.querySelector("#loginMesageSuccess").innerHTML = ``;
-        document.querySelector("#loginMesageError").innerHTML = "Invalid OTP";
-        // ...
+        document.querySelector("#loginMesageError").innerHTML = error.code
+          ? errorMessage(error.code)
+          : "Account created, but saving your profile failed. Is json-server running ?";
+        nextButton.innerText = "Continue";
+        nextButton.disabled = false;
       });
-  }
+  };
 
-  // setting the typed value to the input state
-  const handleChangeMobile = (e) => {
-    let val = e.target.value;
-    setCheck({ ...check, [e.target.name]: val });
+  const handleChange = (e) => {
+    setCheck({ ...check, [e.target.name]: e.target.value });
   };
 
   useEffect(() => {
@@ -152,89 +98,71 @@ export const Register = () => {
   return (
     <>
       <div className="mainLogin">
-        <div id="recaptcha-container"></div>
         <div className="loginBx">
-        <div className="logoImgdivReg"><img className="imglogoReg" src="https://i.postimg.cc/QxksRNkQ/expedio-Logo.jpg':'https://i.postimg.cc/fRx4D7QH/logo3.png" alt="" /></div>
+          <div className="logoImgdivReg">
+            <img
+              className="imglogoReg"
+              src="https://i.postimg.cc/QxksRNkQ/expedio-Logo.jpg"
+              alt=""
+            />
+          </div>
 
           <div className="loginHead">
-          <hr /><hr /><hr />
-
+            <hr />
+            <hr />
+            <hr />
             <h1>Register</h1>
           </div>
-          
-          <div className="loginInputB" id="loginNumber">
-            <label htmlFor="">Enter Your Number</label>
+
+          <div className="loginInputB">
+            <label htmlFor="">Enter Your Full name</label>
             <span>
               <input
-                type="number"
-                readOnly={verify}
-                name="number"
-                value={number}
-                onChange={(e) => handleChangeMobile(e)}
-                placeholder="Number"
+                type="text"
+                name="user_name"
+                value={user_name}
+                onChange={(e) => handleChange(e)}
+                placeholder="Full Name"
               />
-              <button
-                disabled={verify}
-                onClick={handleVerifyNumber}
-                id="nextButton"
-              >
-                Next
+            </span>
+          </div>
+
+          <div className="loginInputB">
+            <label htmlFor="">Enter Your Email</label>
+            <span>
+              <input
+                type="email"
+                name="email"
+                value={email}
+                onChange={(e) => handleChange(e)}
+                placeholder="Email"
+              />
+            </span>
+          </div>
+
+          <div className="loginInputB">
+            <label htmlFor="">Your Password</label>
+            <span>
+              <input
+                type="password"
+                name="password"
+                value={password}
+                onChange={(e) => handleChange(e)}
+                placeholder="At least 6 characters"
+              />
+              <button onClick={handleRegisterUser} id="nextButton">
+                Continue
               </button>
             </span>
           </div>
-          {verify ? (
-            <div className="loginInputB" id="loginOtp">
-              <label htmlFor="">Enter OTP</label>
-              <span>
-                <input
-                  type="number"
-                  name="otp"
-                  value={otp}
-                  onChange={(e) => handleChangeMobile(e)}
-                />
-                <button onClick={verifyCode}>Next</button>
-              </span>
-            </div>
-          ) : (
-            ""
-          )}
-
-          {otpVerify ? (
-            <>
-              <div className="loginInputB">
-                <label htmlFor="">Enter Your Full name</label>
-                <span>
-                  <input
-                    type="text"
-                    name="user_name"
-                    value={user_name}
-                    onChange={(e) => handleChangeMobile(e)}
-                  />
-                </span>
-              </div>
-              <div className="loginInputB">
-                <label htmlFor="">Your Password</label>
-                <span>
-                  <input
-                    type="password"
-                    name="password"
-                    value={password}
-                    onChange={(e) => handleChangeMobile(e)}
-                  />
-                </span>
-              </div>
-              <div className="loginInputB">
-                <button onClick={handleRegisterUser}>Continue</button>
-              </div>
-            </>
-          ) : (
-            ""
-          )}
 
           {isLoading ? <h1>Please wait...</h1> : ""}
 
           <div className="loginTerms">
-          <div className="inpChecbx"><input className="inp" type="checkbox" /> <h2>Keep me signed in</h2></div>
+            <Link to="/login">Already have an Account</Link>
+            <div className="inpChecbx">
+              <input className="inp" type="checkbox" /> <h2>Keep me signed in</h2>
+            </div>
             <p>Selecting this checkbox will keep you signed into your account on this device until you sign out. Do not select this on shared devices.</p>
             <h6>By signing in, I agree to the Expedia <span> Terms and Conditions</span>, <span>Privacy Statement</span> and <span>Expedia Rewards Terms and Conditions</span>.</h6>
           </div>

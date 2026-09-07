@@ -15,7 +15,9 @@ const StayData = () => {
   console.log("city",selectedCity);
   console.log("In", checkInDate);
   console.log("out", checkOutDate);
-  const [selectedPriceRange, setSelectedPriceRange] = useState([0, 10000]);
+  // Upper bound covers the priciest hotel in db.json (25000); at 10000 the top
+  // 15 were silently filtered out of every page.
+  const [selectedPriceRange, setSelectedPriceRange] = useState([0, 30000]);
   const [filteredHotel, setFilteredHotel] = useState([]);
   const [price, setPrice] = useState(""); // Define price state variable
 

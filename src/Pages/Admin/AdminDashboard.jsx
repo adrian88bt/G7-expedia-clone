@@ -1,4 +1,5 @@
 import axios from "axios";
+import { BASE_URL } from "../../baseurl";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 // import { useDispatch } from "react-redux";
@@ -19,7 +20,7 @@ export const AdminDashboard = () => {
   const getHotel = () => {
     setLoading(true);
     axios
-      .get("http://localhost:8080/flight")
+      .get(`${BASE_URL}/flight`)
       .then((res) => {
         setFlight(res.data.length);
       })
@@ -28,7 +29,7 @@ export const AdminDashboard = () => {
       });
     //
     axios
-      .get("http://localhost:8080/hotel")
+      .get(`${BASE_URL}/hotel`)
       .then((res) => {
         setHotel(res.data.length);
       })
@@ -37,7 +38,7 @@ export const AdminDashboard = () => {
       });
     //
     axios
-      .get("http://localhost:8080/users")
+      .get(`${BASE_URL}/users`)
       .then((res) => {
         setUsers(res.data.length);
       })
@@ -46,7 +47,7 @@ export const AdminDashboard = () => {
       });
 
       axios
-      .get("http://localhost:8080/giftcards")
+      .get(`${BASE_URL}/giftcards`)
       .then((res) => {
         setGiftCard(res.data.length);
       })
@@ -55,7 +56,7 @@ export const AdminDashboard = () => {
       });
     
       axios
-      .get("http://localhost:8080/Things_todo")
+      .get(`${BASE_URL}/Things_todo`)
       .then((res) => {
         setThings(res.data.length);
       })
