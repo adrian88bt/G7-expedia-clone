@@ -1,4 +1,7 @@
 import axios from "axios";
+import { BASE_URL } from "../../baseurl";
+import { getAuth, signOut } from "firebase/auth";
+import firebase_app from "../../01_firebase/config_firebase";
 import {
   GET_USERS,
   LOGIN_ERROR,
@@ -42,15 +45,16 @@ export const handlelogout_user = () => {
 
 export const userRigister = (userData) => async (dispatch) => {
   dispatch(register_request());
-  let res = await axios
-    .post(`http://localhost:8080/users`, userData)
-    .then((res) => {
-      dispatch(register_success(res.data));
-      // console.log(res.data)
-    })
-    .catch((err) => {
-      dispatch(register_error());
-    });
+  try {
+    const res = await axios.post(`${BASE_URL}/users`, userData);
+    dispatch(register_success(res.data));
+    return res.data;
+  } catch (err) {
+    dispatch(register_error());
+    // Rethrow so the page knows the profile never landed and can stay put
+    // instead of redirecting as if registration succeeded.
+    throw err;
+  }
 };
 
 // get users
@@ -58,7 +62,7 @@ export const userRigister = (userData) => async (dispatch) => {
 export const fetch_users = (dispatch) => {
   dispatch(register_request());
   axios
-    .get(`http://localhost:8080/users`)
+    .get(`${BASE_URL}/users`)
     .then((res) => {
       dispatch(get_users(res.data));
     })
@@ -69,13 +73,16 @@ export const fetch_users = (dispatch) => {
 
 // Logint funcnality
 
+// The reducer rehydrates from these two keys, so they have to be written here
+// or the session is lost on the next page load.
 export const login_user = (loginData) => (dispatch) => {
   dispatch(login_success(loginData));
-  // localStorage.setItem("MkuserData", JSON.stringify(loginData));
-  // localStorage.setItem("MkisAuth", JSON.stringify(true));
+  localStorage.setItem("MkuserData", JSON.stringify(loginData));
+  localStorage.setItem("MkisAuth", JSON.stringify(true));
 };
 
 export const logout_user = (dispatch) => {
+  signOut(getAuth(firebase_app));
   dispatch(handlelogout_user());
   localStorage.setItem("MkuserData", JSON.stringify({}));
   localStorage.setItem("MkisAuth", JSON.stringify(false));

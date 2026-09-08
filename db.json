@@ -1,94 +1,26 @@
 {
   "users": [
     {
-      "number": "8586864566",
-      "user_name": "Arun Kumar",
-      "password": "123456",
-      "email": "",
+      "user_name": "Admin User",
+      "email": "admin@gmail.com",
+      "pass": "123456",
       "dob": "",
       "gender": "",
       "marital_status": null,
-      "id": 1
+      "id": 1,
+      "number": "",
+      "is_admin": true
     },
     {
-      "number": "9289771917",
-      "user_name": "Neha",
-      "password": "123456",
-      "email": "",
+      "user_name": "Generic User",
+      "email": "user@gmail.com",
+      "pass": "123456",
       "dob": "",
       "gender": "",
       "marital_status": null,
-      "id": 2
-    },
-    {
-      "number": "9205107244",
-      "user_name": "Anil Kumar",
-      "password": "123456",
-      "email": "",
-      "dob": "",
-      "gender": "",
-      "marital_status": null,
-      "id": 3
-    },
-    {
-      "number": "9289771917",
-      "user_name": "Neha ",
-      "password": "123456",
-      "email": "",
-      "dob": "",
-      "gender": "",
-      "marital_status": null,
-      "id": 4
-    },
-    {
-      "number": "9169235786",
-      "user_name": "Shivam Chaudhary",
-      "password": "1234",
-      "email": "",
-      "dob": "",
-      "gender": "",
-      "marital_status": null,
-      "id": 5
-    },
-    {
-      "number": "8007903757",
-      "user_name": "Sagar Balsaraf",
-      "password": "Saagar@123",
-      "email": "",
-      "dob": "",
-      "gender": "",
-      "marital_status": null,
-      "id": 6
-    },
-    {
-      "number": "9382068271",
-      "user_name": "Kumkum Dutta",
-      "password": "10122002",
-      "email": "",
-      "dob": "",
-      "gender": "",
-      "marital_status": null,
-      "id": 7
-    },
-    {
-      "number": "9764113475",
-      "user_name": "abc",
-      "password": "12345",
-      "email": "",
-      "dob": "",
-      "gender": "",
-      "marital_status": null,
-      "id": 8
-    },
-    {
-      "number": "9467922067",
-      "user_name": "Sarim",
-      "password": "123456",
-      "email": "",
-      "dob": "",
-      "gender": "",
-      "marital_status": null,
-      "id": 9
+      "id": 2,
+      "number": "",
+      "is_admin": false
     }
   ],
   "hotelcart": [
@@ -139,7 +71,7 @@
       "to": "MUMBAI",
       "departure": "04:20",
       "arrival": "07:15",
-      "price": "6999",
+      "price": 6999,
       "totalTime": "02h 55m",
       "id": 1
     },
@@ -150,7 +82,7 @@
       "to": "BANGLURU",
       "departure": "04:20",
       "arrival": "07:15",
-      "price": "6999",
+      "price": 6999,
       "totalTime": "02h 55m",
       "id": 6
     },
@@ -172,7 +104,7 @@
       "to": "MUMBAI",
       "departure": "02:20",
       "arrival": "04:15",
-      "price": "5999",
+      "price": 5999,
       "totalTime": "02h 55m",
       "id": 3
     },
@@ -183,7 +115,7 @@
       "to": "BANGLURU",
       "departure": "06:20",
       "arrival": "09:15",
-      "price": "7999",
+      "price": 7999,
       "totalTime": "02h 55m",
       "id": 7
     }
@@ -196,7 +128,7 @@
       "to": "MUMBAI",
       "departure": "04:20",
       "arrival": "07:15",
-      "price": "6999",
+      "price": 6999,
       "totalTime": "02h 55m",
       "id": 1
     },
@@ -207,7 +139,7 @@
       "to": "MUMBAI",
       "departure": "06:20",
       "arrival": "09:15",
-      "price": "7999",
+      "price": 7999,
       "totalTime": "02h 55m",
       "id": 2
     },
@@ -218,7 +150,7 @@
       "to": "MUMBAI",
       "departure": "02:20",
       "arrival": "04:15",
-      "price": "5999",
+      "price": 5999,
       "totalTime": "02h 55m",
       "id": 3
     },
@@ -229,7 +161,7 @@
       "to": "MUMBAI",
       "departure": "06:20",
       "arrival": "09:15",
-      "price": "4999",
+      "price": 4999,
       "totalTime": "02h 55m",
       "id": 4
     },
@@ -240,7 +172,7 @@
       "to": "MUMBAI",
       "departure": "04:20",
       "arrival": "07:15",
-      "price": "8999",
+      "price": 8999,
       "totalTime": "02h 55m",
       "id": 5
     },
@@ -251,7 +183,7 @@
       "to": "BANGLURU",
       "departure": "04:20",
       "arrival": "07:15",
-      "price": "6999",
+      "price": 6999,
       "totalTime": "02h 55m",
       "id": 6
     },
@@ -262,7 +194,7 @@
       "to": "BANGLURU",
       "departure": "06:20",
       "arrival": "09:15",
-      "price": "7999",
+      "price": 7999,
       "totalTime": "02h 55m",
       "id": 7
     },
@@ -273,7 +205,7 @@
       "to": "BANGLURU",
       "departure": "02:20",
       "arrival": "04:15",
-      "price": "5999",
+      "price": 5999,
       "totalTime": "02h 55m",
       "id": 8
     },
@@ -284,7 +216,7 @@
       "to": "BANGLURU",
       "departure": "06:20",
       "arrival": "09:15",
-      "price": "4999",
+      "price": 4999,
       "totalTime": "02h 55m",
       "id": 9
     },
@@ -295,7 +227,7 @@
       "to": "BANGLURU",
       "departure": "04:20",
       "arrival": "07:15",
-      "price": "8999",
+      "price": 8999,
       "totalTime": "02h 55m",
       "id": 10
     },
@@ -306,7 +238,7 @@
       "to": "PUNE",
       "departure": "04:20",
       "arrival": "07:15",
-      "price": "6999",
+      "price": 6999,
       "totalTime": "02h 55m",
       "id": 11
     },
@@ -317,7 +249,7 @@
       "to": "PUNE",
       "departure": "06:20",
       "arrival": "09:15",
-      "price": "7999",
+      "price": 7999,
       "totalTime": "02h 55m",
       "id": 12
     },
@@ -328,7 +260,7 @@
       "to": "PUNE",
       "departure": "02:20",
       "arrival": "04:15",
-      "price": "5999",
+      "price": 5999,
       "totalTime": "02h 55m",
       "id": 13
     },
@@ -339,7 +271,7 @@
       "to": "PUNE",
       "departure": "06:20",
       "arrival": "09:15",
-      "price": "4999",
+      "price": 4999,
       "totalTime": "02h 55m",
       "id": 14
     },
@@ -350,7 +282,7 @@
       "to": "PUNE",
       "departure": "04:20",
       "arrival": "07:15",
-      "price": "8999",
+      "price": 8999,
       "totalTime": "02h 55m",
       "id": 15
     },
@@ -361,7 +293,7 @@
       "to": "BANGLURU",
       "departure": "04:20",
       "arrival": "07:15",
-      "price": "6999",
+      "price": 6999,
       "totalTime": "02h 55m",
       "id": 16
     },
@@ -372,7 +304,7 @@
       "to": "BANGLURU",
       "departure": "06:20",
       "arrival": "09:15",
-      "price": "7999",
+      "price": 7999,
       "totalTime": "02h 55m",
       "id": 17
     },
@@ -383,7 +315,7 @@
       "to": "BANGLURU",
       "departure": "02:20",
       "arrival": "04:15",
-      "price": "5999",
+      "price": 5999,
       "totalTime": "02h 55m",
       "id": 18
     },
@@ -394,7 +326,7 @@
       "to": "BANGLURU",
       "departure": "06:20",
       "arrival": "09:15",
-      "price": "4999",
+      "price": 4999,
       "totalTime": "02h 55m",
       "id": 19
     },
@@ -405,7 +337,7 @@
       "to": "BANGLURU",
       "departure": "04:20",
       "arrival": "07:15",
-      "price": "8999",
+      "price": 8999,
       "totalTime": "02h 55m",
       "id": 20
     },

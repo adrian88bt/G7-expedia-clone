@@ -1,5 +1,6 @@
 import { Box, Image, Flex, Button } from "@chakra-ui/react";
 import axios from "axios";
+import { BASE_URL } from "../../baseurl";
 import { useToast } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
@@ -8,7 +9,7 @@ export default function FlightCard({ data }) {
   const toast = useToast();
 
   const handleClick = () => {
-    axios.post(`http://localhost:8000/flightcart`, data);
+    axios.post(`${BASE_URL}/flightcart`, data);
     //   .then((res) => console.log(res))
     //   .catch((err) => console.log(err))
 
