@@ -1,28 +1,52 @@
 import { Box, Image, Flex, Button } from "@chakra-ui/react";
-import axios from "axios";
-import { BASE_URL } from "../../baseurl";
 import { useToast } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { addToCart } from "../../Redux/CartReducer/cart.action";
 
 export default function FlightCard({ data }) {
   const { id, airline, from, to, departure, arrival, price, totalTime } = data;
   const toast = useToast();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleClick = () => {
-    axios.post(`${BASE_URL}/flightcart`, data);
-    //   .then((res) => console.log(res))
-    //   .catch((err) => console.log(err))
+  const isAuth = useSelector((store) => store.LoginReducer.isAuth);
+  const activeUser = useSelector((store) => store.LoginReducer.activeUser);
 
-    toast({
-      title: "Flight Add to Cart",
-      description: "Please Proceed to Payment",
-      status: "success",
-      duration: 9000,
-      isClosable: true,
-    });
+  const handleClick = async () => {
+    // Cart rows are keyed by email, so there is nowhere to put this yet.
+    if (!isAuth) {
+      toast({
+        title: "Please sign in first",
+        description: "You need an account to book a flight.",
+        status: "info",
+        duration: 5000,
+        isClosable: true,
+      });
+      navigate("/login");
+      return;
+    }
+
+    try {
+      await dispatch(addToCart("flight", data, activeUser.email));
+      toast({
+        title: "Flight added to cart",
+        description: "Please proceed to payment.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+      navigate("/cart");
+    } catch (err) {
+      toast({
+        title: "Could not add that flight",
+        description: "Is json-server running ?",
+        status: "error",
+        duration: 7000,
+        isClosable: true,
+      });
+    }
   };
-
-  
 
   const Booknow = {
     marginTop: "3%",
@@ -78,11 +102,9 @@ export default function FlightCard({ data }) {
         <h3>Price</h3>
         <b>{price}</b>
       </Flex>
-      <Link to={"/checkout"}>
-        <Button style={Booknow} onClick={handleClick}>
-          Book Now
-        </Button>
-      </Link>
+      <Button style={Booknow} onClick={handleClick}>
+        Book Now
+      </Button>
     </Box>
   );
 }

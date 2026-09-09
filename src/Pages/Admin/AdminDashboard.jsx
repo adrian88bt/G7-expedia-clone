@@ -15,6 +15,7 @@ export const AdminDashboard = () => {
   const [users, setUsers] = useState(0);
   const [giftCard, setGiftCard] = useState(0);
   const [things, setThings] = useState(0);
+  const [bookings, setBookings] = useState(0);
  const [loading, setLoading] = useState(false);
 
   const getHotel = () => {
@@ -63,6 +64,15 @@ export const AdminDashboard = () => {
       .catch((err) => {
         console.log(err);
       });
+
+      axios
+      .get(`${BASE_URL}/bookings`)
+      .then((res) => {
+        setBookings(res.data.length);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     
     
   };
@@ -80,6 +90,7 @@ export const AdminDashboard = () => {
           <h1><Link to={"/admin/adminstay"}>Add Stays</Link></h1>
           <h1><Link to={"/admin/products"}>All Flights</Link></h1>
           <h1><Link to={"/admin/hotels"}>All Hotels</Link></h1>
+          <h1><Link to={"/admin/bookings"}>All Bookings</Link></h1>
           <h1><Link to={"/"}>Log out</Link></h1>
         </div>
         <div className="mainBox">
@@ -110,6 +121,11 @@ export const AdminDashboard = () => {
               <h1>Giftcards</h1>
               {<h1>{giftCard}</h1>}
               <Link to="/admin/giftcards">View</Link>
+            </div>
+            <div className="dataBx">
+              <h1>Bookings</h1>
+              {<h1>{bookings}</h1>}
+              <Link to="/admin/bookings">View</Link>
             </div>
             <div className="dataBx">
               <h1>Pakages Available</h1>

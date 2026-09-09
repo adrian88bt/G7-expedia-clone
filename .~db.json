@@ -65,6 +65,27 @@
       "id": 2,
       "catalog_id": 2,
       "user_email": "user@gmail.com"
+    },
+    {
+      "image": "https://r2imghtlak.mmtcdn.com/r2-mmt-htl-image/htl-imgs/201911121625076463-bb876932053a11eaac360242ac110002.jpg?&output-quality=75&downsize=583:388&output-format=jpg",
+      "img1": "https://r2imghtlak.mmtcdn.com/r2-mmt-htl-image/htl-imgs/201911121625076463-bb876932053a11eaac360242ac110002.jpg?&output-quality=75&downsize=583:388&output-format=jpg",
+      "img2": "https://r2imghtlak.mmtcdn.com/r2-mmt-htl-image/htl-imgs/201911121625076463-bc663e50053a11eaab9e0242ac110003.jpg?&output-quality=75&downsize=583:388&crop=583:388;2,0&output-format=jpg",
+      "img3": "https://r2imghtlak.mmtcdn.com/r2-mmt-htl-image/htl-imgs/201911121625076463-240b8736053b11eaae9e0242ac110005.jpg?&output-quality=75&downsize=583:388&output-format=jpg",
+      "img4": "https://r2imghtlak.mmtcdn.com/r2-mmt-htl-image/htl-imgs/201911121625076463-612cbd56053b11eab7ff0242ac110005.jpg?&output-quality=75&downsize=583:388&output-format=jpg",
+      "rating": 3.9,
+      "ratingtext": "Very Good",
+      "ratingcomment": "Based on  Ratings and  reviews",
+      "name": "Hotel Arafa Inn",
+      "place": "Gandhi Nagar",
+      "description": "",
+      "additional": "",
+      "taxes": 373,
+      "price": 2300,
+      "additional2": "",
+      "additional1": "",
+      "catalog_id": 4,
+      "user_email": "persist@test.com",
+      "id": 3
     }
   ],
   "flightcart": [
@@ -132,6 +153,19 @@
       "id": 7,
       "catalog_id": 7,
       "user_email": "user@gmail.com"
+    },
+    {
+      "airline": "GoAir",
+      "number": "6E 2054",
+      "from": "DELHI",
+      "to": "MUMBAI",
+      "departure": "06:20",
+      "arrival": "09:15",
+      "price": 7999,
+      "totalTime": "02h 55m",
+      "catalog_id": 2,
+      "user_email": "persist@test.com",
+      "id": 8
     }
   ],
   "flight": [

@@ -40,6 +40,7 @@ export const Admin = () => {
           <h1><Link to={"/admin/adminstay"}>Add Stays</Link></h1>
           <h1><Link to={"/admin/products"}>All Flights</Link></h1>
           <h1><Link to={"/admin/hotels"}>All Hotels</Link></h1>
+          <h1><Link to={"/admin/bookings"}>All Bookings</Link></h1>
           <h1><Link to={"/"}>Log out</Link></h1>
 
         </div>

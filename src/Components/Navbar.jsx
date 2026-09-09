@@ -31,8 +31,10 @@ import {
   import {MdOutlineFlight} from 'react-icons/md'
   import {AiFillCar} from 'react-icons/ai'
   import {Link as RouterLink} from 'react-router-dom'
+  import { useEffect } from 'react'
   import { useDispatch, useSelector } from 'react-redux'
   import { logout_user } from '../Redux/Authantication/auth.action'
+  import { fetchCart } from '../Redux/CartReducer/cart.action'
 
   export default function Navbar() {
     const { isOpen, onToggle } = useDisclosure();
@@ -41,6 +43,14 @@ import {
     const dispatch = useDispatch();
     const isAuth = useSelector((store) => store.LoginReducer.isAuth);
     const activeUser = useSelector((store) => store.LoginReducer.activeUser);
+    const cart = useSelector((store) => store.CartReducer);
+    const cartCount = cart.hotels.length + cart.flights.length;
+
+    // The navbar is on every page, so this is the one place that keeps the cart
+    // badge in step with what is actually saved in db.json.
+    useEffect(() => {
+      if (isAuth && activeUser.email) dispatch(fetchCart(activeUser.email));
+    }, [dispatch, isAuth, activeUser.email]);
 
     const handleLogout = () => {
       dispatch(logout_user);
@@ -106,6 +116,9 @@ import {
             {isAuth ? (
             <Box fontWeight={'500'} fontSize={{base:'12px',sm:'16px'}} mr={9} display={'flex'} gap={3} >
                 <Text>Hi, {activeUser.user_name}</Text>
+                <RouterLink to="/cart">
+                    <Text textDecoration={'underline'} >Cart ({cartCount})</Text>
+                </RouterLink>
                 {activeUser.is_admin ? (
                 <RouterLink to="/admin">
                     <Text textDecoration={'underline'} >Admin</Text>
