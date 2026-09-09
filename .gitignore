@@ -25,3 +25,6 @@ yarn-error.log*
 
 # misc
 /temp
+
+# json-server temp write file
+.~db.json
