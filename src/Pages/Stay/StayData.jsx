@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
-import { DeleteHotel, fetchingHotels } from "../../Redux/StayReducer/action";
+import { fetchingHotels } from "../../Redux/StayReducer/action";
 import { addToCart } from "../../Redux/CartReducer/cart.action";
 import "./StayData.css";
 import PriceFilter from "./PriceFilter";
@@ -35,10 +35,6 @@ const StayData = () => {
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-  };
-
-  const handleLeft = (id) => {
-    dispatch(DeleteHotel(id));
   };
 
   const handleBook = async (hotel) => {
@@ -108,12 +104,7 @@ console.log(data)
           <div className="stay-info">
             <div className="stay-header">
               <h3 className="stay-name">{hotel.name}</h3>
-              <button
-                className="stay-left-btn"
-                onClick={() => handleLeft(hotel.id)}
-              >
-                We have 5 left
-              </button>
+              <span className="stay-left-btn">We have 5 left</span>
             </div>
             <p className="stay-location">{hotel.location}</p>
             <p className="stay-description">{hotel.description}</p>

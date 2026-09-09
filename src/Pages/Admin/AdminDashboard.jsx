@@ -16,6 +16,7 @@ export const AdminDashboard = () => {
   const [giftCard, setGiftCard] = useState(0);
   const [things, setThings] = useState(0);
   const [bookings, setBookings] = useState(0);
+  const [carts, setCarts] = useState(0);
  const [loading, setLoading] = useState(false);
 
   const getHotel = () => {
@@ -73,6 +74,18 @@ export const AdminDashboard = () => {
       .catch((err) => {
         console.log(err);
       });
+
+      // One cart spans two collections, so the count is both added together.
+      Promise.all([
+        axios.get(`${BASE_URL}/hotelcart`),
+        axios.get(`${BASE_URL}/flightcart`),
+      ])
+      .then(([hotelRes, flightRes]) => {
+        setCarts(hotelRes.data.length + flightRes.data.length);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     
     
   };
@@ -91,6 +104,8 @@ export const AdminDashboard = () => {
           <h1><Link to={"/admin/products"}>All Flights</Link></h1>
           <h1><Link to={"/admin/hotels"}>All Hotels</Link></h1>
           <h1><Link to={"/admin/bookings"}>All Bookings</Link></h1>
+          <h1><Link to={"/admin/carts"}>All Carts</Link></h1>
+          <h1><Link to={"/admin/users"}>All Users</Link></h1>
           <h1><Link to={"/"}>Log out</Link></h1>
         </div>
         <div className="mainBox">
@@ -115,7 +130,12 @@ export const AdminDashboard = () => {
             <div className="dataBx">
               <h1>Total Users</h1>
               {<h1>{users}</h1>}
-              <Link to="/admin">View</Link>
+              <Link to="/admin/users">View</Link>
+            </div>
+            <div className="dataBx">
+              <h1>Items in Carts</h1>
+              {<h1>{carts}</h1>}
+              <Link to="/admin/carts">View</Link>
             </div>
             <div className="dataBx">
               <h1>Giftcards</h1>

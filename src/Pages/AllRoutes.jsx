@@ -16,6 +16,8 @@ import FlightData from "./Flights/FlightData";
 import { AdminRoute } from "../Components/AdminRoute";
 import { PrivateRoute } from "../Components/PrivateRoute";
 import { AdminBookings } from "./Admin/AdminBookings";
+import { AdminCarts } from "./Admin/AdminCarts";
+import { AdminUsers } from "./Admin/AdminUsers";
 import CartPage from "./CartPage";
 
 export const AllRoutes = () => {
@@ -31,6 +33,8 @@ export const AllRoutes = () => {
             <Route path="/register" element={<Register/>}/>
             <Route path="/admin/hotels" element={<AdminRoute><AllHotels /></AdminRoute>} />
             <Route path="/admin/bookings" element={<AdminRoute><AdminBookings /></AdminRoute>} />
+            <Route path="/admin/carts" element={<AdminRoute><AdminCarts /></AdminRoute>} />
+            <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} />
             <Route path="/ThingsToDo" element={<Destination/>}/>
             <Route path="/stay" element={<StayData />} />
             <Route path="/flight" element={<FlightData />} />

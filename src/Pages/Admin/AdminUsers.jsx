@@ -2,22 +2,29 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { BASE_URL } from "../../baseurl";
-import { formatRupees } from "../../cartTotals";
 import "./adminProduct.css";
 
-export const AdminBookings = () => {
+export const AdminUsers = () => {
+  const [users, setUsers] = useState([]);
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
-    // Newest first, so the booking someone just made is at the top.
-    axios
-      .get(`${BASE_URL}/bookings?_sort=created_at&_order=desc`)
-      .then((res) => setBookings(res.data))
+    Promise.all([
+      axios.get(`${BASE_URL}/users`),
+      axios.get(`${BASE_URL}/bookings`),
+    ])
+      .then(([userRes, bookingRes]) => {
+        setUsers(userRes.data);
+        setBookings(bookingRes.data);
+      })
       .catch(() => setFailed(true))
       .finally(() => setLoading(false));
   }, []);
+
+  const bookingsFor = (email) =>
+    bookings.filter((booking) => booking.user_email === email).length;
 
   return (
     <div className="adminProductMain">
@@ -34,37 +41,23 @@ export const AdminBookings = () => {
       </div>
 
       <div className="adminProductbox">
-        <div className="head"><h1>All Bookings</h1></div>
+        <div className="head"><h1>All Users</h1></div>
 
         {loading ? <h1>Please wait...</h1> : ""}
-        {failed ? <h1>Could not load bookings. Is json-server running ?</h1> : ""}
-        {!loading && !failed && bookings.length === 0 ? (
-          <h1>No bookings yet.</h1>
-        ) : (
-          ""
-        )}
+        {failed ? <h1>Could not load users. Is json-server running ?</h1> : ""}
 
-        {bookings.map((booking) => (
-          <div key={booking.id} className="adminProductlist">
+        {users.map((user) => (
+          <div key={user.id} className="adminProductlist">
+            <span><b>#{user.id}</b></span>
+            <span>{user.user_name}</span>
+            <span>{user.email}</span>
+            <span>{user.is_admin ? "Admin" : "Customer"}</span>
+            <span>{user.number ? user.number : "no phone on file"}</span>
             <span>
-              <b>#{booking.id}</b>
+              {bookingsFor(user.email) === 1
+                ? "1 booking"
+                : `${bookingsFor(user.email)} bookings`}
             </span>
-            <span>
-              {booking.guest_name}
-              <br />
-              {booking.guest_mobile}
-            </span>
-            <span>{booking.user_email}</span>
-            <span>
-              {booking.items?.map((item, i) => (
-                <div key={i}>
-                  {item.title} <i>({item.kind})</i>
-                </div>
-              ))}
-            </span>
-            <span>{formatRupees(booking.total)}</span>
-            <span>{new Date(booking.created_at).toLocaleString()}</span>
-            <span>{booking.status}</span>
           </div>
         ))}
       </div>
